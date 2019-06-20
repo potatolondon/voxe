@@ -9,6 +9,7 @@ android {
   defaultConfig {  
     generatedDensities = []
     applicationId = "org.nativescript.voxe" 
+    multiDexEnabled = true
     
     //override supported platforms
     // ndk {
