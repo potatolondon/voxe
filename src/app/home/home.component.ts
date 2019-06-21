@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AngularFirestore } from '@angular/fire/firestore';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +9,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  title = 'voxe';
-  todos: Observable<any[]>;
+  public title = 'voxe';
+  public todos: Observable<any>;
 
-  constructor(db: AngularFirestore) {
-    this.todos = db.collection('todos').valueChanges();
+  constructor(protected firebase: FirebaseService) {
   }
 
   ngOnInit() {
+    this.todos = this.firebase.valueChanges('todos');
   }
 }
