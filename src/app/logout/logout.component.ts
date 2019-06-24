@@ -16,7 +16,9 @@ export class LogoutComponent implements OnInit {
 
   logout() {
     this.authService.logout().then(() => {
-      this.navigation.navigate(['login']);
+      this.navigation.navigate(['login'], {
+        clearHistory: true,
+      });
     });
   }
 

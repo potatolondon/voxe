@@ -2,20 +2,21 @@ import { Injectable, NgZone } from '@angular/core';
 
 import { AuthServiceI } from './auth.base';
 import * as firebase from 'nativescript-plugin-firebase';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable()
 export class AuthService implements AuthServiceI {
   public user;
-  private authState: ReplaySubject<any>;
+  private authState: BehaviorSubject<any>;
 
   constructor(private zone: NgZone) {
-    this.authState = new ReplaySubject(1);
+    this.authState = new BehaviorSubject(undefined);
     firebase.addAuthStateListener({
       onAuthStateChanged: (data) => {
         this.zone.run(() => {
           this.user = data.user;
+          console.log('User is', data.user);
           this.authState.next(data.user);
         });
       }

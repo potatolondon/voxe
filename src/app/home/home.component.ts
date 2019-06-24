@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
 
   constructor(db: AngularFirestore) {
     this.todos = db.collection('todos').valueChanges();
+
+    this.todos.subscribe((todo) => console.log(todo));
   }
 
   ngOnInit() {

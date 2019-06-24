@@ -11,7 +11,7 @@ export class AuthService implements AuthServiceI {
 
   constructor(protected afAuth: AngularFireAuth) {
     this.afAuth.auth.onAuthStateChanged((user) => {
-        // this.user = user;
+        this.user = user;
         if (user) {
             console.log('Logged in as user', user.displayName);
             console.log('User id', user.uid);

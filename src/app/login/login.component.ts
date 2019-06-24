@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
     this.authService.login().then(() => {
       this.zone.run(() => {
         console.log('Navigating to home');
-        this.navigation.navigate(['home']);
+        this.navigation.navigate(['home'], {
+          clearHistory: true,
+        });
       });
     });
   }

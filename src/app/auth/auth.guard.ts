@@ -15,15 +15,16 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | Observable<boolean> {
       if (this.auth.user) {
-          return true;
+        return true;
       }
+      console.log('User not set, checking observable');
 
       return this.auth.userObservable().pipe(
           take(1),
           map(user => !!user),
           tap(loggedIn => {
               if (!loggedIn) {
-                console.log('User is not authenticated, logging in');
+                console.log('User is not authenticated, redirecting to /login');
                 this.navigation.navigate(['login']);
               } else {
                 console.log('User is logged');
