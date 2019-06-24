@@ -10,11 +10,18 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 import { environment } from '../environments/environment';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+import { LogoutComponent } from './logout/logout.component';
+import { NavigationService } from './navigation/navigation.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +30,7 @@ import { environment } from '../environments/environment';
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard, NavigationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

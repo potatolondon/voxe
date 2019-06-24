@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:798501221800:android:93e1229fb01a3b58",
         "android_client_info": {
-          "package_name": "org.nativescript.voxe"
+          "package_name": "potato.voxe_android"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "798501221800-qd8s3e090rlbck6lu4bgktnhthg5u2bi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "potato.voxe_android",
+            "certificate_hash": "10232cb01e133e2814310ee0a86d2700e0cbb980"
+          }
+        },
         {
           "client_id": "798501221800-be9ki2uldlr8pckddhou3r9obuv6o62b.apps.googleusercontent.com",
           "client_type": 3
@@ -30,6 +38,13 @@
             {
               "client_id": "798501221800-a5hv2a4qc3qdp0lbkvalutmt7t1dvo85.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "798501221800-tm0mpq6re0jf1tq7ok7uop2is9t3u9di.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "potato.voxe-ios"
+              }
             }
           ]
         }

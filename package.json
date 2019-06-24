@@ -1,7 +1,10 @@
 {
   "name": "voxe",
   "nativescript": {
-    "id": "org.nativescript.voxe",
+    "id": {
+      "android": "potato.voxe_android",
+      "ios": "potato.voxe_ios"
+    },
     "tns-ios": {
       "version": "5.4.2"
     },
