@@ -2,7 +2,7 @@
 <ActionBar [title]="title"></ActionBar>
 <StackLayout  class="p-20">
     <Label text="Welcome to {{ title }}!" class="h1 text-center" textWrap="true"></Label>
-    <ListView height="300" [items]="todos" class="list-group">
+    <ListView height="300" [items]="todos|async" class="list-group">
       <ng-template let-todo="item" let-i="index" let-odd="odd" let-even="even">
           <!-- The item template can only have a single root view container (e.g. GridLayout, StackLayout, etc.)-->
           <StackLayout orientation="horizontal" class="list-group-item">
