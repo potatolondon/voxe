@@ -1,12 +1,15 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import FirebaseServiceBase from './firebase.service.base';
+
 const firebase = require('nativescript-plugin-firebase/app');
 
 
 @Injectable()
-export class FirebaseService {
+export class FirebaseService extends FirebaseServiceBase {
   constructor(protected zone: NgZone) {
+    super();
   }
 
   public valueChanges(collectionName: string): Observable<any> {
