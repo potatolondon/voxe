@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-import FirebaseServiceBase from './firebase.service.base'
+import FirebaseServiceInterface from './firebase.service.interface';
 
 
 @Injectable()
-export class FirebaseService extends FirebaseServiceBase {
+export class FirebaseService implements FirebaseServiceInterface {
   constructor(protected firestore: AngularFirestore) {
-    super();
   }
 
   public valueChanges(collectionName: string): Observable<any> {
