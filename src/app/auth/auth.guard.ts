@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 
 import { NavigationService } from '../navigation/navigation.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private navigation: NavigationService) {}
 
@@ -17,7 +19,6 @@ export class AuthGuard implements CanActivate {
       if (this.auth.user) {
         return true;
       }
-      console.log('User not set, checking observable');
 
       return this.auth.userObservable().pipe(
           take(1),
@@ -27,7 +28,7 @@ export class AuthGuard implements CanActivate {
                 console.log('User is not authenticated, redirecting to /login');
                 this.navigation.navigate(['login']);
               } else {
-                console.log('User is logged');
+                console.log('User is logged in');
               }
           }),
       )
