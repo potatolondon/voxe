@@ -8,6 +8,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { FirebaseService } from './services/firebase.service';
 
 import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
@@ -30,7 +31,12 @@ import { NavigationService } from './navigation/navigation.service';
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [AuthService, AuthGuard, NavigationService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    FirebaseService,
+    NavigationService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
