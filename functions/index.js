@@ -3,8 +3,8 @@
 // Import the Dialogflow module and response creation dependencies
 // from the Actions on Google client library.
 const {
-  Carousel,
   dialogflow,
+  List,
   Suggestions,
 } = require('actions-on-google');
 
@@ -28,15 +28,20 @@ admin.initializeApp(functions.config().firebase);
 let db = admin.firestore();
 let todosCollection = db.collection('todos');
 
+app.intent('Default Welcome Intent', (conv) => {
+  conv.ask('Hello! Welcome to your to-do list. I can read your list, add or remove items. What you want me to do?');
+  conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
+});
+
 app.intent('read list', (conv) => {
   let ssml = '<speak>This is your to-do list: <break time="1" />';
   return todosCollection
     .get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        ssml += doc.data().content + '<break time="500ms" />, ';
+        ssml += `${doc.data().content}<break time="500ms" />, `;
       });
-      ssml += 'Would you like me to do anything else?</speak>';
+      ssml += '<break time="500ms" />Would you like me to do anything else?</speak>';
       conv.ask(ssml);
       conv.ask(new Suggestions('Add item', 'Remove item'));
       return Promise.resolve('Read complete');
@@ -64,22 +69,19 @@ app.intent(['remove item request', 'remove another'], (conv) => {
   return todosCollection
     .get()
     .then((snapshot) => {
-      let i = 1;
       snapshot.forEach((doc) => {
         items.push({
           optionInfo: {
             key: doc.id,
           },
           title: doc.data().content,
-          description: 'Activity number ' + i,
-         })
-         i++;
+         });
       });
 
       conv.ask('What item do you want me to remove?');
       
       if (conv.screen) {
-        return conv.ask(new Carousel({
+        return conv.ask(new List({
           title: 'To-Do List',
           items: items
         }));
