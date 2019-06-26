@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { FirebaseService } from '../services/firebase.service';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +9,23 @@ import { FirebaseService } from '../services/firebase.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public title = 'voxe';
-  public todos: Observable<any>;
+  public todos$: Observable<any>;
+  public addTodoText = '';
+  protected collectionName = 'todos';
 
-  constructor(protected firebase: FirebaseService) {
+  constructor(protected firestore: FirestoreService) {
   }
 
-  ngOnInit() {
-    this.todos = this.firebase.valueChanges('todos');
+  public ngOnInit() {
+    this.todos$ = this.firestore.valueChanges(this.collectionName);
+  }
+
+  public async onAddItem() {
+    await this.firestore.createDoc(this.collectionName, { content: this.addTodoText });
+    this.addTodoText = '';
+  }
+
+  public onDeleteItem(documentId) {
+    this.firestore.deleteDoc(this.collectionName, documentId);
   }
 }
