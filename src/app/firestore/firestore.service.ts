@@ -3,11 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import FirestoreServiceInterface from './firestore.service.interface';
+import { FirestoreService } from './firestore.service.interface';
 
 
 @Injectable()
-export class FirestoreService implements FirestoreServiceInterface {
+class FirestoreServiceWeb implements FirestoreService {
   constructor(protected firestore: AngularFirestore) {
   }
 
@@ -33,3 +33,5 @@ export class FirestoreService implements FirestoreServiceInterface {
     return this.firestore.doc(`/${collectionName}/${documentId}`).delete();
   }
 }
+
+export { FirestoreServiceWeb as FirestoreService };

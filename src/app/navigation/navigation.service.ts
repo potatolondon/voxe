@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NavigationServiceI } from './nagivation.base';
+import { NavigationService } from './nagivation.service.interface';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NavigationService implements NavigationServiceI {
+export class NavigationServiceWeb implements NavigationService {
 
   constructor(private router: Router) { }
 
@@ -14,3 +14,5 @@ export class NavigationService implements NavigationServiceI {
   }
 
 }
+
+export { NavigationServiceWeb as NavigationService };

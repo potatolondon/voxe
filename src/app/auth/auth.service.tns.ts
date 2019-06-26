@@ -1,15 +1,15 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { AuthServiceI } from './auth.base';
+import { AuthService } from './auth.service.interface';
 import * as firebase from 'nativescript-plugin-firebase';
-import { BehaviorSubject, Observable, from, ReplaySubject, concat } from 'rxjs';
+import { from, ReplaySubject } from 'rxjs';
 import { User } from 'nativescript-plugin-firebase';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements AuthServiceI {
+class AuthServiceNative implements AuthService {
   public user;
   private authState: ReplaySubject<User>;
 
@@ -48,3 +48,5 @@ export class AuthService implements AuthServiceI {
     return firebase.logout();
   }
 }
+
+export { AuthServiceNative as AuthService };

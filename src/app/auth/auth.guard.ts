@@ -31,7 +31,6 @@ export class AuthGuard implements CanActivate {
                 console.log('User is logged in');
               }
           }),
-      )
-
+      );
   }
 }

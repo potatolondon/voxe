@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { AuthServiceI } from './auth.base';
+import { AuthService } from './auth.service.interface';
 import * as firebase from 'firebase/app';
 
 
 @Injectable()
-export class AuthService implements AuthServiceI {
+class AuthServiceWeb implements AuthService {
   public user;
 
   constructor(protected afAuth: AngularFireAuth) {
@@ -34,3 +34,5 @@ export class AuthService implements AuthServiceI {
     return this.afAuth.auth.signOut();
   }
 }
+
+export { AuthServiceWeb as AuthService };

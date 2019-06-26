@@ -4,7 +4,7 @@ import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FirestoreService } from './services/firestore.service';
+import { FirestoreService } from './firestore/firestore.service';
 
 import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';

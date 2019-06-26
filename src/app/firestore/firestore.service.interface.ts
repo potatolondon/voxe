@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-export default interface FirestoreServiceInterface {
+export interface FirestoreService {
   valueChanges(collectionName: string): Observable<any>;
   createDoc(collectionName: string, document: any);
   setDoc(collectionName: string, documentId: any, document: any);
