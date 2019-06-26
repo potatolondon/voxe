@@ -1,13 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import FirestoreServiceInterface from './firestore.service.interface';
+import { FirestoreService } from './firestore.service.interface';
 
 const firebase = require('nativescript-plugin-firebase/app');
 
 
 @Injectable()
-export class FirestoreService implements FirestoreServiceInterface {
+class FirestoreServiceNative implements FirestoreService {
   constructor(protected zone: NgZone) {
   }
 
@@ -40,3 +40,5 @@ export class FirestoreService implements FirestoreServiceInterface {
     return firebase.firestore().collection(collectionName).doc(documentId).delete();
   }
 }
+
+export { FirestoreServiceNative as FirestoreService };

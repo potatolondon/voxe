@@ -13,14 +13,21 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FirestoreService } from './services/firestore.service';
+import { FirestoreService } from './firestore/firestore.service';
 
 import { environment } from '../environments/environment';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+import { LogoutComponent } from './logout/logout.component';
+import { NavigationService } from './navigation/navigation.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +43,10 @@ import { environment } from '../environments/environment';
     FormsModule,
   ],
   providers: [
-    FirestoreService
+    AuthService,
+    AuthGuard,
+    FirestoreService,
+    NavigationService,
   ],
   bootstrap: [AppComponent]
 })

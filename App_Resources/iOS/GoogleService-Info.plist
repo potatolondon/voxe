@@ -6,6 +6,8 @@
 	<string>798501221800-tm0mpq6re0jf1tq7ok7uop2is9t3u9di.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.798501221800-tm0mpq6re0jf1tq7ok7uop2is9t3u9di</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>798501221800-qd8s3e090rlbck6lu4bgktnhthg5u2bi.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyC_wfQoZKAOVdnHuPQ2-cqEIyRjsVt1m7Q</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.nativescript.voxe</string>
+	<string>potato.voxe-ios</string>
 	<key>PROJECT_ID</key>
 	<string>voxe-e6a90</string>
 	<key>STORAGE_BUCKET</key>
