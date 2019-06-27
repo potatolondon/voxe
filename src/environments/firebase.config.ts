@@ -1,4 +1,4 @@
-export default {
+export const firebaseConfig = {
   apiKey: 'AIzaSyBbcsov-Ws1N3ShyJcr229AIMNX_jHYA0s',
   authDomain: 'voxe-e6a90.firebaseapp.com',
   databaseURL: 'https://voxe-e6a90.firebaseio.com',
