@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { NavigationService } from './nagivation.service.interface';
 import { Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NavigationServiceWeb implements NavigationService {
-
+@Injectable()
+class NavigationServiceWeb implements NavigationService {
   constructor(private router: Router) { }
 
   navigate(commands, extras?: any) {

@@ -11,11 +11,28 @@ class FirestoreServiceNative implements FirestoreService {
   constructor(protected zone: NgZone) {
   }
 
-  public valueChanges(collectionName: string): Observable<any> {
-    const collection = firebase.firestore().collection(collectionName);
+  public valueChanges(collectionName: string, path?: any, queryParams?: any): Observable<any> {
+    let query = firebase.firestore().collection(collectionName);
+
+    if (queryParams) {
+      for (const param of queryParams.where) {
+        query = query.where(param.field, param.comparator, param.value);
+      }
+      if (queryParams.orderBy) {
+        for (const param of queryParams.orderBy) {
+          query = query.orderBy(param.field, param.direction);
+        }
+      }
+      if (queryParams.limit) {
+        query = query.limit(queryParams.limit);
+      }
+    }
+    if (path) {
+      query = query.doc(path);
+    }
 
     return Observable.create(observer => {
-      const unsubscribe = collection.onSnapshot((snapshot: any) => {
+      const unsubscribe = query.onSnapshot((snapshot: any) => {
         let results = [];
         if (snapshot && snapshot.forEach) {
           snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() }));

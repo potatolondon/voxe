@@ -9,13 +9,16 @@ import { NavigationService } from '../navigation/navigation.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private authService: AuthService, private navigation: NavigationService) { }
+  constructor(
+    private auth: AuthService,
+    private navigation: NavigationService,
+  ) { }
 
   ngOnInit() {
   }
 
   logout() {
-    this.authService.logout().then(() => {
+    this.auth.logout().then(() => {
       this.navigation.navigate(['login'], {
         clearHistory: true,
       });
