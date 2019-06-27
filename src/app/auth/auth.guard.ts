@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 
 import { NavigationService } from '../navigation/navigation.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private navigation: NavigationService) {}
-
+  constructor(
+    private auth: AuthService,
+    private navigation: NavigationService,
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,

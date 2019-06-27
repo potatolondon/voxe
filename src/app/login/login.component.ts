@@ -10,7 +10,7 @@ import { NavigationService } from '../navigation/navigation.service';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
+    private auth: AuthService,
     private navigation: NavigationService,
     private zone: NgZone,
   ) {}
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.authService.login().then(() => {
+    this.auth.login().then(() => {
       this.zone.run(() => {
         console.log('Navigating to home');
         this.navigation.navigate(['home'], {

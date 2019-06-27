@@ -5,8 +5,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class NavigationServiceNative implements NavigationService {
-
+class NavigationServiceNative implements NavigationService {
   constructor(private router: RouterExtensions) { }
 
   navigate(commands, extras?: any) {
