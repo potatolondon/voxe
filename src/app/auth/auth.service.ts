@@ -26,8 +26,8 @@ class AuthServiceWeb implements AuthService {
   }
 
   public login() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      return this.afAuth.auth.signInWithPopup(provider);
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return this.afAuth.auth.signInWithPopup(provider);
   }
 
   public logout() {
