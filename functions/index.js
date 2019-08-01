@@ -52,7 +52,7 @@ app.intent('Get Signin', (conv, params, signin) => {
   if (signin.status === 'OK') {
     const payload = conv.user.profile.payload;
     conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`);
-    conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
+    conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
   } else {
     conv.ask(`I won't be able to save your data, but what do you want to do next?`);
   }
@@ -61,8 +61,8 @@ app.intent('Get Signin', (conv, params, signin) => {
 app.intent('Default Welcome Intent', (conv) => {
   const {payload} = conv.user.profile;
   const name = payload ? ` ${payload.given_name}` : '';
-  conv.ask(`Hello ${name}! Welcome to your to-do list. I can read your list, add or remove items. What you want me to do?`);
-  conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
+  conv.ask(`Hello ${name}! Welcome to your to-do list. I can read your list, add or remove items. What do you want me to do?`);
+  conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
 });
 
 app.intent('read list', (conv) => {
@@ -77,10 +77,12 @@ app.intent('read list', (conv) => {
         });
         ssml += '<break time="500ms" />Would you like me to do anything else?</speak>';
         conv.ask(ssml);
-        conv.ask(new Suggestions('Add item', 'Remove item'));
+        conv.ask(new Suggestions('Yes', 'No'));
+        conv.contexts.set('restart-input', 2);
       } else {
         conv.ask(`${conv.user.profile.payload.given_name}, your list is empty. Want to add a new item?`);
         conv.ask(new Suggestions('Yes', 'No'));
+        conv.contexts.set('readempty-list-followup', 2);
       }
 
       return Promise.resolve('Read complete');
@@ -91,9 +93,7 @@ app.intent('read list', (conv) => {
     });
 });
 
-app.intent('read list - empty list - yes','add item request');
-
-app.intent('what to add', (conv, {item}) => {
+const addItemCallback = (conv, { item }) => {
   return todosCollection
     .add({
       content: item,
@@ -101,7 +101,7 @@ app.intent('what to add', (conv, {item}) => {
       createdAt: Date.now()
     })
     .then(() => {
-      conv.ask(`<speak> I have added ${item} to your to-do list.<break time='1' />Do you want to add another one?</speak>`);
+      conv.ask(`<speak> I have added ${item} to your to-do list.<break time='1' />Do you want to add another item?</speak>`);
       conv.ask(new Suggestions('Yes', 'No'));
       return Promise.resolve('Write complete');
     })
@@ -109,16 +109,20 @@ app.intent('what to add', (conv, {item}) => {
       conv.close('Error adding entry to the Firestore database.');
       console.log('Error getting documents', err);
     });
-});
+}
 
-app.intent(['remove item request', 'remove another'], (conv) => {
+app.intent('add item X request', addItemCallback);
+app.intent('what to add', addItemCallback);
+
+
+app.intent(['remove item request', 'remove another item - yes'], (conv) => {
   let items = [];
   return todosCollection
     .where('userId', '==', conv.user.storage.uid)
     .get()
     .then((snapshot) => {
       if (snapshot.empty) {
-        conv.ask('Your list is empty. Is there anything else I can help you with?');
+        conv.ask(`${conv.user.profile.payload.given_name}, your list is empty.`);
         conv.ask(new Suggestions('Add item'));
       } else {
         snapshot.forEach((doc) => {
@@ -190,23 +194,40 @@ app.intent('what to remove', (conv, {item}) => {
     });
 });
 
-app.intent(['anything else - add', 'anything else - remove', 'read list - empty list - no'], (conv) => {
-  conv.ask('Is there anything else I can do?');
-  conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
-});
-
 app.intent('actions_intent_NO_INPUT', (conv) => {
   const repromptCount = parseInt(conv.arguments.get('REPROMPT_COUNT'));
   if (repromptCount === 0) {
-    conv.ask('Is there anything I can help you width?');
-    conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
+    conv.ask('Is there anything I can help you with?');
+    conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
   } else if (repromptCount === 1) {
     conv.ask(`Please allow me to help you interact with you to-do list. I can read it, add a new item or remove an existing one.`);
-    conv.ask(new Suggestions('Read list', 'Add item', 'Remove item'));
+    conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
   } else if (conv.arguments.get('IS_FINAL_REPROMPT')) {
     conv.close(`Sorry we're having trouble. Let's try this another time. Goodbye.`);
   }
 });
+
+// Anything else falbacks
+app.intent('add another - no', (conv) => {
+  conv.ask('Is there anything else I can do?');
+  conv.contexts.set('restart-input', 2);
+  conv.ask(new Suggestions('Read list', 'Remove from list'));
+});
+
+app.intent('remove another item - no', (conv) => {
+  conv.ask('Is there anything else I can do?');
+  conv.contexts.set('restart-input', 2);
+  conv.ask(new Suggestions('Read list', 'Add to list'));
+});
+
+app.intent('read list - empty list - no', (conv) => {
+  conv.ask('Is there anything else I can do?');
+  conv.contexts.set('restart-input', 2);
+  conv.ask(new Suggestions('Add to list', 'Remove from list'));
+});
+
+// Redirect for reading/removing from an empty list
+app.intent(['add another - yes', 'read list - empty list - yes'], 'add item request');
 
 // Set the DialogflowApp object to handle the HTTPS POST request.
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
