@@ -1,0 +1,36 @@
+{
+  "id": "4808a75b-0d50-4ecf-9316-ae34c3382109",
+  "parentId": "1608ea9b-8480-4c5d-a889-21213ae73c9b",
+  "rootParentId": "1608ea9b-8480-4c5d-a889-21213ae73c9b",
+  "name": "read list - empty list - no",
+  "auto": true,
+  "contexts": [
+    "readempty-list-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "readlist.readlist-no-2",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

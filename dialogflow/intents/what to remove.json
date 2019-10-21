@@ -1,0 +1,52 @@
+{
+  "id": "32bc4ba2-8022-43c3-a63f-8d6a783e4d06",
+  "parentId": "bee51d74-5ae2-4711-bb99-81b8cbac9539",
+  "rootParentId": "bee51d74-5ae2-4711-bb99-81b8cbac9539",
+  "name": "what to remove",
+  "auto": true,
+  "contexts": [
+    "removeitemrequest-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "removeitemrequest.removeitemrequest-custom",
+      "affectedContexts": [
+        {
+          "name": "whattoremove-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
+      "parameters": [
+        {
+          "id": "50ea7a79-b0da-4030-9a5c-de8244a698a0",
+          "required": false,
+          "dataType": "@sys.any",
+          "name": "item",
+          "value": "$item",
+          "promptMessages": [],
+          "noMatchPromptMessages": [],
+          "noInputPromptMessages": [],
+          "outputDialogContexts": [],
+          "isList": false
+        }
+      ],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [
+    {
+      "name": "actions_intent_OPTION"
+    }
+  ],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

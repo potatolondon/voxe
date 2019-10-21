@@ -1,0 +1,52 @@
+[
+  {
+    "id": "03b8da46-5aa8-488a-8c02-750ad2a4e4e7",
+    "data": [
+      {
+        "text": "I want to remove ",
+        "userDefined": false
+      },
+      {
+        "text": "item",
+        "alias": "item",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "31bef91f-0620-4b06-8188-af0dd92d714f",
+    "data": [
+      {
+        "text": "remove ",
+        "userDefined": false
+      },
+      {
+        "text": "item",
+        "alias": "item",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "e5e54cc3-aca9-4578-9e55-44c40f216daf",
+    "data": [
+      {
+        "text": "item",
+        "alias": "item",
+        "meta": "@sys.any",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

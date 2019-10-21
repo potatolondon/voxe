@@ -1,0 +1,36 @@
+{
+  "id": "67d7eee5-1f59-45d5-bd53-c4d74c023efd",
+  "parentId": "32bc4ba2-8022-43c3-a63f-8d6a783e4d06",
+  "rootParentId": "bee51d74-5ae2-4711-bb99-81b8cbac9539",
+  "name": "remove another item - no",
+  "auto": true,
+  "contexts": [
+    "whattoremove-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "removeitemrequest.removeitemrequest-custom.whattoremove-no",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}

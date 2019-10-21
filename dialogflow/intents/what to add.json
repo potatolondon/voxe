@@ -1,0 +1,48 @@
+{
+  "id": "353e14f8-3352-4579-9521-fc904b96fc6f",
+  "parentId": "9a0bcdc5-b415-449b-a2cb-c79b08911e7f",
+  "rootParentId": "9a0bcdc5-b415-449b-a2cb-c79b08911e7f",
+  "name": "what to add",
+  "auto": true,
+  "contexts": [
+    "additemrequest-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "additemrequest.additemrequest-custom",
+      "affectedContexts": [
+        {
+          "name": "whattoadd-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
+      "parameters": [
+        {
+          "id": "54a56ed1-0ae7-4b86-9e23-4cc6fd8b912d",
+          "required": false,
+          "dataType": "@sys.any",
+          "name": "item",
+          "value": "$item",
+          "promptMessages": [],
+          "noMatchPromptMessages": [],
+          "noInputPromptMessages": [],
+          "outputDialogContexts": [],
+          "isList": false
+        }
+      ],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "conditionalResponses": [],
+  "condition": "",
+  "conditionalFollowupEvents": []
+}
