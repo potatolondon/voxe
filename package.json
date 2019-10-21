@@ -1,5 +1,14 @@
 {
   "name": "voxe",
+  "description": "VOice X-platform Experience",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Potato",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/potatolondon/voxe.git"
+  },
   "nativescript": {
     "id": {
       "android": "potato.voxe_android",
@@ -12,7 +21,6 @@
       "version": "6.1.2"
     }
   },
-  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -25,7 +33,6 @@
     "mobile": "tns run --bundle",
     "preview": "tns preview --bundle"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~8.0.1",
     "@angular/cdk": "~8.0.1",
