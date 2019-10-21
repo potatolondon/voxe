@@ -1,19 +1,17 @@
 {
-  "id": "d033560b-0c7c-4c37-b223-145faf31892d",
-  "parentId": "1608ea9b-8480-4c5d-a889-21213ae73c9b",
-  "rootParentId": "1608ea9b-8480-4c5d-a889-21213ae73c9b",
+  "id": "e466b37b-3036-4bcd-a334-4a58af9c4ae9",
   "name": "read list - empty list - yes",
   "auto": true,
   "contexts": [
-    "readlist-followup"
+    "read-empty-list-followup"
   ],
   "responses": [
     {
       "resetContexts": false,
-      "action": "readlist.readlist-yes-2",
+      "action": "readlist.readlist-yes",
       "affectedContexts": [
         {
-          "name": "additemrequest-followup",
+          "name": "read-empty-list-followup",
           "parameters": {},
           "lifespan": 2
         }

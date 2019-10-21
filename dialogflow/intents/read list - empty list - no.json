@@ -5,13 +5,19 @@
   "name": "read list - empty list - no",
   "auto": true,
   "contexts": [
-    "readempty-list-followup"
+    "read-empty-list-followup"
   ],
   "responses": [
     {
       "resetContexts": false,
       "action": "readlist.readlist-no-2",
-      "affectedContexts": [],
+      "affectedContexts": [
+        {
+          "name": "read-empty-list-followup",
+          "parameters": {},
+          "lifespan": 2
+        }
+      ],
       "parameters": [],
       "messages": [
         {
