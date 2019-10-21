@@ -10,6 +10,7 @@
 /functions/node_modules
 
 # NativeScript
+.migration_backup
 /hooks
 /platforms
 

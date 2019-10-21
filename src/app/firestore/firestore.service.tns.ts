@@ -11,7 +11,7 @@ class FirestoreServiceNative implements FirestoreService {
   constructor(protected zone: NgZone) {
   }
 
-  public valueChanges(collectionName: string, path?: any, queryParams?: any): Observable<any> {
+  public valueChanges(collectionName: string, path?: string, queryParams?: any): Observable<any> {
     let query = firebase.firestore().collection(collectionName);
 
     if (queryParams) {

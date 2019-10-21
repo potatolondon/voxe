@@ -11,7 +11,7 @@ class FirestoreServiceWeb implements FirestoreService {
   constructor(protected afStore: AngularFirestore) {
   }
 
-  public valueChanges(collectionName: string, path?: any, queryParams?: any): Observable<any> {
+  public valueChanges(collectionName: string, path?: string, queryParams?: any): Observable<any> {
     const query = this.afStore.collection(collectionName, ref => {
       let q: any = ref;
       if (queryParams) {
