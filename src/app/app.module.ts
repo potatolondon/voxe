@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +40,7 @@ import { NavigationService } from './navigation/navigation.service';
     MatInputModule,
     MatButtonModule,
     MatListModule,
+    MatToolbarModule,
     MatIconModule,
     FormsModule,
   ],
