@@ -93,7 +93,7 @@ app.intent('read list', (conv) => {
     });
 });
 
-const addItemCallback = (conv, { item }) => {
+app.intent('what to add', (conv, { item }) => {
   return todosCollection
     .add({
       content: item,
@@ -109,10 +109,7 @@ const addItemCallback = (conv, { item }) => {
       conv.close('Error adding entry to the Firestore database.');
       console.log('Error getting documents', err);
     });
-}
-
-app.intent('add item X request', addItemCallback);
-app.intent('what to add', addItemCallback);
+});
 
 
 app.intent(['remove item request', 'remove another item - yes'], (conv) => {
