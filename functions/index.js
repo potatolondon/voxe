@@ -22,26 +22,16 @@ const app = dialogflow({
 // Init firebase
 const admin = require('firebase-admin');
 
-//Uncomment to test DB on serve
-// let serviceAccount = require('./ServiceAccountkey.json');
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: 'https://voxe-e6a90.firebaseio.com'
-// });
-
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 const auth = admin.auth();
 const todosCollection = db.collection('todos');
 
-// middleware to store uid on firebase
+// Middleware to store user uid
 app.middleware(async (conv) => {
-  const {email} = conv.user;
-  try {
-    conv.user.storage.uid = (await auth.getUserByEmail(email)).uid;
-  } catch (e) {
-      throw e;
-  }
+  const { email } = conv.user;
+  const user = await auth.getUserByEmail(email);
+  conv.user.storage.uid = user.uid;
 });
 
 app.intent('Start Signin', (conv) => {
@@ -65,130 +55,120 @@ app.intent('Default Welcome Intent', (conv) => {
   conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
 });
 
-app.intent('read list', (conv) => {
-  return todosCollection
+app.intent('read list', async (conv) => {
+  const snapshot = await todosCollection
     .where('userId', '==', conv.user.storage.uid)
     .get()
-    .then((snapshot) => {
-      if (!snapshot.empty) {
-        let ssml = '<speak>This is your to-do list: <break time="1" />';
-        snapshot.forEach((doc) => {
-          ssml += `${doc.data().content}<break time="500ms" />, `;
-        });
-        ssml += '<break time="500ms" />Would you like me to do anything else?</speak>';
-        conv.ask(ssml);
-        conv.ask(new Suggestions('Yes', 'No'));
-        conv.contexts.set('restart-input', 2);
-      } else {
-        conv.ask(`${conv.user.profile.payload.given_name}, your list is empty. Want to add a new item?`);
-        conv.ask(new Suggestions('Yes', 'No'));
-        conv.contexts.set('readempty-list-followup', 2);
-      }
-
-      return Promise.resolve('Read complete');
-    })
     .catch((err) => {
-      conv.close('Error reading entry from the Firestore database.');
-      console.log('Error getting documents', err);
+      conv.close('Sorry. It seems we are having some technical difficulties.');
+      console.error('Error reading Firestore', err);
     });
+
+  if (!snapshot.empty) {
+    let ssml = '<speak>This is your to-do list: <break time="1" />';
+    snapshot.forEach((doc) => {
+      ssml += `${doc.data().content}<break time="500ms" />, `;
+    });
+    ssml += '<break time="500ms" />Would you like me to do anything else?</speak>';
+    conv.ask(ssml);
+    conv.ask(new Suggestions('Yes', 'No'));
+    conv.contexts.set('restart-input', 2);
+  } else {
+    conv.ask(`${conv.user.profile.payload.given_name}, your list is empty. Do you want to add a new item?`);
+    conv.ask(new Suggestions('Yes', 'No'));
+    conv.contexts.set('read-empty-list-followup', 2);
+  }
 });
 
-app.intent('what to add', (conv, { item }) => {
-  return todosCollection
+app.intent('what to add', async (conv, { item }) => {
+  await todosCollection
     .add({
       content: item,
       userId: conv.user.storage.uid,
       createdAt: Date.now()
     })
-    .then(() => {
-      conv.ask(`<speak> I have added ${item} to your to-do list.<break time='1' />Do you want to add another item?</speak>`);
-      conv.ask(new Suggestions('Yes', 'No'));
-      return Promise.resolve('Write complete');
-    })
     .catch((err) => {
-      conv.close('Error adding entry to the Firestore database.');
-      console.log('Error getting documents', err);
+      conv.close('Sorry. It seems we are having some technical difficulties.');
+      console.error('Error writing to Firestore', err);
     });
+
+    conv.ask(`<speak> I have added ${item} to your to-do list.<break time='1' />Do you want to add another item?</speak>`);
+    conv.ask(new Suggestions('Yes', 'No'));
 });
 
 
-app.intent(['remove item request', 'remove another item - yes'], (conv) => {
+app.intent(['remove item request', 'remove another item - yes'], async (conv) => {
   let items = [];
-  return todosCollection
+  const snapshot = await todosCollection
     .where('userId', '==', conv.user.storage.uid)
     .get()
-    .then((snapshot) => {
-      if (snapshot.empty) {
-        conv.ask(`${conv.user.profile.payload.given_name}, your list is empty.`);
-        conv.ask(new Suggestions('Add item'));
-      } else {
-        snapshot.forEach((doc) => {
-          items.push({
-            optionInfo: {
-              key: doc.id,
-            },
-            title: doc.data().content,
-           });
-        });
-
-        conv.ask('What item do you want me to remove?');
-
-        // List must have at least 2 items
-        // Doc says one but if you have only one error you get this in the log
-        // expected_inputs[0].possible_intents[0].input_value_data.option_value_spec.list_select:
-        // the number of 'items' must be between 2 and 30
-        if (conv.screen) {
-          if (snapshot.size === 1) {
-            return conv.ask(new BasicCard({
-              title: 'To-Do List',
-              text: items[0].title
-            }))
-          } else {
-            return conv.ask(new List({
-              title: 'To-Do List',
-              items: items
-            }));
-          }
-        }
-      }
-
-      return Promise.resolve('Read complete');
-    })
     .catch((err) => {
-      conv.close('Error reading entry from the Firestore database.');
-      console.log('Error getting documents', err);
+      conv.close('Sorry. It seems we are having some technical difficulties.');
+      console.error('Error writing to Firestore', err);
     });
+
+  if (snapshot.empty) {
+    conv.ask(`Sorry ${conv.user.profile.payload.given_name}, your list is empty.`);
+    conv.ask(new Suggestions('Add item'));
+  } else {
+    snapshot.forEach((doc) => {
+      items.push({
+        optionInfo: {
+          key: doc.id,
+        },
+        title: doc.data().content,
+      });
+    });
+
+    conv.ask('What item do you want me to remove?');
+
+    // List must have at least 2 items
+    // Doc says one but if you have only one error you get this in the log
+    // expected_inputs[0].possible_intents[0].input_value_data.option_value_spec.list_select:
+    // the number of 'items' must be between 2 and 30
+    if (conv.screen) {
+      if (snapshot.size === 1) {
+        conv.ask(new BasicCard({
+          title: 'To-Do List',
+          text: items[0].title
+        }))
+      } else {
+        conv.ask(new List({
+          title: 'To-Do List',
+          items: items
+        }));
+      }
+    }
+  }
 });
 
-app.intent('what to remove', (conv, {item}) => {
+app.intent('what to remove', async (conv, {item}) => {
   item = conv.arguments.get('OPTION') || item;
   let itemRemoved = '';
   let idRemoved = '';
-  return todosCollection
+  const snapshot = await todosCollection
     .where('userId', '==', conv.user.storage.uid)
     .get()
-    .then((snapshot) => {
-      snapshot.forEach((doc) => {
-        if (doc.id === item || doc.data().content === item) {
-          itemRemoved = doc.data().content;
-          idRemoved = doc.id;
-        }
-      });
-
-      if (itemRemoved !== '') {
-        todosCollection.doc(idRemoved).delete();
-        conv.ask(`<speak> I have removed ${itemRemoved} from the list.<break time='1' />Do you want to remove another one?</speak>`);
-        conv.ask(new Suggestions('Yes', 'No'));
-      } else {
-        conv.ask(`<speak> The item provided is not on your list.<break time='1' />Do you want to remove another one?</speak>`);
-        conv.ask(new Suggestions('Yes', 'No'));
-      }
-      return Promise.resolve('Read complete');
-    })
     .catch((err) => {
-      conv.close('Error removing entry from the Firestore database.');
-      console.log('Error getting documents', err);
+      conv.close('Sorry. It seems we are having some technical difficulties.');
+      console.error('Error writing to Firestore', err);
     });
+
+  snapshot.forEach((doc) => {
+    if (doc.id === item || doc.data().content === item) {
+      itemRemoved = doc.data().content;
+      idRemoved = doc.id;
+    }
+  });
+
+  if (itemRemoved !== '') {
+    todosCollection.doc(idRemoved).delete();
+    conv.ask(`<speak> I have removed ${itemRemoved} from the list.<break time='1' />Do you want to remove another item?</speak>`);
+    conv.ask(new Suggestions('Yes', 'No'));
+  } else {
+    conv.ask(`<speak> I can't find this item on your list.<break time='1' />Do you want to remove another item?</speak>`);
+    conv.ask(new Suggestions('Yes', 'No'));
+  }
 });
 
 app.intent('actions_intent_NO_INPUT', (conv) => {
@@ -204,27 +184,23 @@ app.intent('actions_intent_NO_INPUT', (conv) => {
   }
 });
 
-// Anything else falbacks
-app.intent('add another - no', (conv) => {
-  conv.ask('Is there anything else I can do?');
+app.intent([
+  'add another - no',
+  'remove another item - no',
+  'read list - empty list - no'
+], (conv) => {
+  conv.ask('Is there anything else I can do for you?');
   conv.contexts.set('restart-input', 2);
-  conv.ask(new Suggestions('Read list', 'Remove from list'));
+  conv.ask(new Suggestions('Read list', 'Add to list', 'Remove from list'));
 });
 
-app.intent('remove another item - no', (conv) => {
-  conv.ask('Is there anything else I can do?');
-  conv.contexts.set('restart-input', 2);
-  conv.ask(new Suggestions('Read list', 'Add to list'));
+app.intent([
+  'add another - yes',
+  'read list - empty list - yes'
+], (conv) => {
+  conv.ask('Ok! What item should I add?');
+  conv.contexts.set('additemrequest-followup', 2);
 });
-
-app.intent('read list - empty list - no', (conv) => {
-  conv.ask('Is there anything else I can do?');
-  conv.contexts.set('restart-input', 2);
-  conv.ask(new Suggestions('Add to list', 'Remove from list'));
-});
-
-// Redirect for reading/removing from an empty list
-app.intent(['add another - yes', 'read list - empty list - yes'], 'add item request');
 
 // Set the DialogflowApp object to handle the HTTPS POST request.
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
