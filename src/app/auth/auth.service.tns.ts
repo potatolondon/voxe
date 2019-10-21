@@ -6,17 +6,15 @@ import { from, ReplaySubject } from 'rxjs';
 import { User } from 'nativescript-plugin-firebase';
 
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 class AuthServiceNative implements AuthService {
-  public user;
+  public user: User;
   private authState: ReplaySubject<User>;
 
   constructor(private zone: NgZone) {
     this.authState = new ReplaySubject<User>(1);
     const observable = from(firebase.getCurrentUser().catch(err => {
-      console.log('Error in retrieving user:', err);
+      console.error('Error getting current user:', err);
     }));
     observable.subscribe(this.authState);
 
@@ -37,10 +35,8 @@ class AuthServiceNative implements AuthService {
   public login() {
     return firebase.login({
       type: firebase.LoginType.GOOGLE,
-    }).then((user) => {
-      console.log('Logged in as', user.displayName);
     }).catch((err) => {
-      console.error('Error while logging in', err);
+      console.error('Error logging in', err);
     });
   }
 

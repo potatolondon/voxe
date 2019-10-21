@@ -24,8 +24,7 @@ const firebase = require('nativescript-plugin-firebase');
 
 firebase
   .init({})
-  .then(() => { console.log('firebase.init done'); })
-  .catch(error => { console.log(`firebase.init error: ${error}`); });
+  .catch(error => { console.error(`firebase.init error: ${error}`); });
 
 @NgModule({
   declarations: [

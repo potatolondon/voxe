@@ -7,7 +7,7 @@ import { NavigationService } from '../navigation/navigation.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   constructor(
     private auth: AuthService,
@@ -15,12 +15,9 @@ export class LoginComponent implements OnInit {
     private zone: NgZone,
   ) {}
 
-  ngOnInit() {}
-
   login() {
     this.auth.login().then(() => {
       this.zone.run(() => {
-        console.log('Navigating to home');
         this.navigation.navigate(['home'], {
           clearHistory: true,
         });

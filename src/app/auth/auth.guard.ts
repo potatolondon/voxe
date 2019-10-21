@@ -21,16 +21,13 @@ export class AuthGuard implements CanActivate {
       }
 
       return this.auth.userObservable().pipe(
-          take(1),
-          map(user => !!user),
-          tap(loggedIn => {
-              if (!loggedIn) {
-                console.log('User is not authenticated, redirecting to /login');
-                this.navigation.navigate(['login']);
-              } else {
-                console.log('User is logged in');
-              }
-          }),
+        take(1),
+        map(user => !!user),
+        tap(loggedIn => {
+          if (!loggedIn) {
+            this.navigation.navigate(['login']);
+          }
+        }),
       );
   }
 }

@@ -12,12 +12,6 @@ class AuthServiceWeb implements AuthService {
   constructor(protected afAuth: AngularFireAuth) {
     this.afAuth.auth.onAuthStateChanged((user) => {
         this.user = user;
-        if (user) {
-            console.log('Logged in as user', user.displayName);
-            console.log('User id', user.uid);
-        } else {
-            console.log('Not currently logged in');
-        }
     });
   }
 

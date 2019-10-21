@@ -31,7 +31,7 @@ class FirestoreServiceNative implements FirestoreService {
       query = query.doc(path);
     }
 
-    return Observable.create(observer => {
+    return new Observable(observer => {
       const unsubscribe = query.onSnapshot((snapshot: any) => {
         let results = [];
         if (snapshot && snapshot.forEach) {

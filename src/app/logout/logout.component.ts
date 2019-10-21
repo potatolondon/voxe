@@ -7,15 +7,12 @@ import { NavigationService } from '../navigation/navigation.service';
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent {
 
   constructor(
     private auth: AuthService,
     private navigation: NavigationService,
   ) { }
-
-  ngOnInit() {
-  }
 
   logout() {
     this.auth.logout().then(() => {
