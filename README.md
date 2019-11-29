@@ -20,11 +20,13 @@ This repository contains:
 
 ### Install
 
+Follow the instructions on [this link](https://docs.nativescript.org/start/quick-setup) to install the dependencies you will need to compile the apps locally. Then, run:
+
     $ npm install
 
 ### Develop
 
-For web, run:
+To start the development web server, run:
 
     $ npm start
 
