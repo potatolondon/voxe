@@ -24,6 +24,12 @@ Follow the instructions on [this link](https://docs.nativescript.org/start/quick
 
     $ npm install
 
+You will also need to add your Firebase project configuration files:
+
+ - [Web](https://firebase.google.com/docs/web/setup): In `src/environments`, copy `firebase.config.example.ts` to `firebase.example.ts` and replace your config object.
+ - [Android](https://firebase.google.com/docs/android/setup): Download your `google-services.json` config file to `App_Resources/Android`.
+ - [iOS](https://firebase.google.com/docs/ios/setup): Download your `GoogleService-Info.plist` config file to `App_Resources/iOS`.
+
 ### Develop
 
 To start the development web server, run:

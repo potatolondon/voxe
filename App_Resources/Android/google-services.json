@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:798501221800:android:93e1229fb01a3b58",
+        "mobilesdk_app_id": "1:798501221800:android:69d00a7f7248220bd2199d",
         "android_client_info": {
           "package_name": "potato.voxe_android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "798501221800-qd8s3e090rlbck6lu4bgktnhthg5u2bi.apps.googleusercontent.com",
+          "client_id": "798501221800-4g97v0d12v04qf9tjuke8o1h1bhef52e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "potato.voxe_android",
-            "certificate_hash": "10232cb01e133e2814310ee0a86d2700e0cbb980"
+            "certificate_hash": "08389c12e40ad59c18bc2977c4381aa9c1a287b6"
           }
         },
         {
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkqd-LVUmAWj4s29OcA8kHX0nvaiN0tnQ"
+          "current_key": "AIzaSyDSMLKjzvnRNlPxGHEJIOz0OtsuzOExFQc"
         }
       ],
       "services": {
